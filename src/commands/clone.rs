@@ -21,7 +21,7 @@ pub fn clone(args: CloneArgs) -> Result<(), Error> {
 
     println!("Cloning registry '{}' from {} to {}...", name, url, dir.display());
 
-    let repo = git2::Repository::clone(url, &dir).with_context(|_| format!("could not clone repository"))?;
+    git2::Repository::clone(url, &dir).with_context(|_| format!("could not clone repository"))?;
 
     let mut known_repos = KnownRepos::read()?;
 

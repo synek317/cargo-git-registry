@@ -2,10 +2,11 @@ use std::path::{Path, PathBuf};
 use std::collections::HashMap;
 use std::env::current_dir;
 use std::fs::{create_dir_all, File};
-use std::io::{self, Read, BufRead, BufReader, BufWriter, Write};
+use std::io::{self, BufWriter, Write};
 use directories::ProjectDirs;
 use failure::{Error, ResultExt};
 use relative_path::RelativePath;
+use utils::read_toml_file;
 use toml;
 
 #[derive(Debug, Serialize, Deserialize, Default)]
@@ -59,16 +60,7 @@ impl KnownRepos {
 
         Ok(
             if config_file_path.exists() {
-                let file = File::open(&config_file_path)
-                    .with_context(|_| format!("could not open known repos file {}", config_file_path.display()))?;
-                let mut bytes = Vec::with_capacity(10240);
-                let mut reader = BufReader::new(file);
-
-                reader.read_to_end(&mut bytes)
-                    .with_context(|_| format!("could not read known repos file {}", config_file_path.display()))?;
-
-                toml::from_slice(&bytes)
-                    .with_context(|_| format!("invalid known repos file {}", config_file_path.display()))?
+                read_toml_file(&config_file_path)?
             } else {
                 KnownRepos::default()
             }

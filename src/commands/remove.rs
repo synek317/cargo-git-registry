@@ -1,8 +1,6 @@
-use std::io::{self, Read, BufRead};
 use cmd_args::RemoveArgs;
-use failure::{Error, ResultExt};
+use failure::Error;
 use utils::{KnownRepos, unregister_registry, global_cargo_config_path};
-use git2;
 
 pub fn remove(args: RemoveArgs) -> Result<(), Error> {
     let known_repos = KnownRepos::read()?;

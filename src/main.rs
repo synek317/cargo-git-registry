@@ -11,6 +11,8 @@ extern crate serde;
 extern crate serde_derive;
 extern crate relative_path;
 extern crate regex;
+extern crate cargo;
+extern crate semver;
 
 mod cmd_args;
 mod commands;
